@@ -2,19 +2,19 @@
 
 #include <iostream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <queue>
 
 class Node {
     public:
-        bool is_leaf;
+        char character;
         int frequency;
-        Node();
-        Node Leaf();
-        Node Branch();
+        Node* left;
+        Node* right;
+        Node(char character, int freq, Node* left, Node* right);
 };
 
 class Metadata {
     public:
-        static std::map<char, Symbol> collect_ordered_freq(std::string sequence);
+        void collect_ordered_freq(std::string sequence);
 };

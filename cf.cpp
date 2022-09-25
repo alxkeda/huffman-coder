@@ -1,18 +1,19 @@
 #include "cf.h"
 
-Node::Node(int freq, bool is_lf) {
-    frequency = freq;
-    is_leaf = is_lf;
-}
+Node::Node(char character, int frequency, Node* left, Node* right) : character(character), frequency(frequency), left(left), right(right) {}
 
-std::map<char, Symbol> Metadata::collect_ordered_freq(std::string sequence) { // collects counts of each symbol
-    std::map<char, Symbol> metadata;
+std::priority_queue<int> collect_ordered_freq(std::string sequence) { // stores objects associating characters with their frequencies into a priority queue
+    std::unordered_map<char, int> ftable;
+    std::priority_queue<Node> frequencies;
     for(char character : sequence) {
-        if(metadata.find(character) == metadata.end()) {
-            metadata[character] = Symbol();
+        if(ftable.find(character) != ftable.end()) {
+            ftable[character]++;
         } else {
-            metadata[character].frequency++;
+            ftable[character] = 1;
         }
     }
-    return metadata;
+
+    for(std::unordered_map<char, int>::const_iterator iter = ftable.begin(); iter != ftable.end(); ++iter) {
+        frequencies.push(Node(iter->first, iter->second, NULL, NULL));
+    }
 }

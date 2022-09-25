@@ -15,10 +15,10 @@ int main() {
     std::stringstream buffer;
     buffer << f.rdbuf(); std::string input = buffer.str() + "]"; // adds character end sequence, keeps the decoding process free of any additional files containing information about the original uncompressed file
 
-    std::unordered_map<char, Symbol> cf_table = Metadata::mk_unordered_cftable(input);
+    std::priority_queue<Node> frequencies;
 
     try {
-        output << encode(input, cf_table);
+        output << encode(input, frequencies);
     } catch (const char *err) {
         output.close();
         std::cerr << err << std::endl;
