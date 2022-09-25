@@ -1,24 +1,23 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
 #include <fstream>
 #include <sstream>
 
-#include "cf.h"
+#include "f.h"
 #include "encode.h"
-#include "decode.h"
 
 int main() {
 
-    std::ofstream output("./data/output.txt");
+    std::ofstream output("./data/output.txt"); std::ofstream input_binary("./data/input_binary.txt");
     std::ifstream f("./data/input.txt");
     std::stringstream buffer;
-    buffer << f.rdbuf(); std::string input = buffer.str() + "]"; // adds character end sequence, keeps the decoding process free of any additional files containing information about the original uncompressed file
+    buffer << f.rdbuf(); std::string input = buffer.str();
 
-    std::priority_queue<Node> frequencies;
+    std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies = Metadata::collect_freq(input);
 
     try {
-        output << encode(input, frequencies);
+        std::string encoded = encode(input, frequencies);
+        output << encoded; input_binary << encoded;
     } catch (const char *err) {
         output.close();
         std::cerr << err << std::endl;
