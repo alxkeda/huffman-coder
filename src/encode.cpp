@@ -1,21 +1,23 @@
 #include "../include/encode.h"
 
-std::map<const char*, std::string, map_cmp> create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
-    std::map<const char*, std::string, map_cmp> encoding;
+std::map<const char*, std::string>* create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
+    std::map<const char*, std::string>* encoding;
     std::string temp;
-    Node head = Node(nullptr, 0, nullptr, nullptr);
+    const Node HEAD = Node(nullptr, 0, nullptr, nullptr);
     while(frequencies.size() > 1) {
-        Node* LEFT = new Node(&frequencies.top()); frequencies.pop();
-        Node* RIGHT = new Node(&frequencies.top()); frequencies.pop();
-        head = Node(nullptr, 0, LEFT, RIGHT);
+        const Node* LEFT = &frequencies.top(); 
+        frequencies.pop();
+        const Node* RIGHT = &frequencies.top();
+        frequencies.pop();
+        const Node HEAD = Node(nullptr, 0, LEFT, RIGHT);
         frequencies.push(Node(nullptr, LEFT->frequency + RIGHT->frequency, LEFT, RIGHT));
     }
-    traverse(&encoding, &head, &temp);
+    traverse(encoding, &HEAD, &temp);
     return encoding;
 }
 
-void traverse(std::map<const char*, std::string, map_cmp>* encoding, Node* curr, std::string* temp) {
-    if(curr->character != NULL) {
+void traverse(std::map<const char*, std::string>* encoding, const Node* curr, std::string* temp) {
+    if(curr->character != nullptr) {
         (*encoding)[curr->character] = *temp;
         return;
     } else {
@@ -32,9 +34,9 @@ void traverse(std::map<const char*, std::string, map_cmp>* encoding, Node* curr,
 
 std::string encode(std::string sequence, std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
     std::string output;
-    std::map<const char*, std::string, map_cmp> encoding = create_encoding(frequencies);
+    std::map<const char*, std::string>* encoding = create_encoding(frequencies);
     for(char character : sequence) {
-        output.append(encoding.at(&character));
+        output.append((*encoding).at(&character));
     }
     return output;
 }

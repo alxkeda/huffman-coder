@@ -1,9 +1,9 @@
 #include "../include/f.h"
 
-Node::Node(const char* character, int frequency, Node* left, Node* right) : character(character), frequency(frequency), left(left), right(right) {}
-Node::Node(const Node* prev) : character(prev->character), frequency(prev->frequency), left(prev->left), right(prev->right) {}
+Node::Node(const char* character, int frequency, const Node* left, const Node* right) : character(character), frequency(frequency), left(left), right(right) {}
+// Node::Node(const Node* prev) : character(prev->character), frequency(prev->frequency), left(prev->left), right(prev->right) {}
 
-std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> Metadata::collect_freq(const std::string sequence) {
+const std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> Metadata::collect_freq(const std::string sequence) {
     std::map<const char*, int> ftable;
     std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies;
     for(char c : sequence) {
@@ -17,6 +17,7 @@ std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> Metadata::colle
     for(std::map<const char*, int>::const_iterator iter = ftable.begin(); iter != ftable.end(); ++iter) {
         frequencies.push(Node((iter->first), iter->second, nullptr, nullptr));
     }
+    const std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> f = frequencies;
 
-    return frequencies;
+    return f;
 }

@@ -8,8 +8,8 @@ class Node {
     public:
         const char* character;
         int frequency;
-        Node* left;
-        Node* right;
+        const Node* left;
+        const Node* right;
         
         struct CompNodeFreq {
             bool operator()(Node& node1, Node& node2) {
@@ -17,11 +17,11 @@ class Node {
             };
         };
 
-        Node(const char* character, int freq, Node* left, Node* right);
+        Node(const char* character, int freq, const Node* left, const Node* right);
         Node(const Node*);
 };
 
 class Metadata {
     public:
-        static std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> collect_freq(std::string sequence);
+        static const std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> collect_freq(std::string sequence);
 };

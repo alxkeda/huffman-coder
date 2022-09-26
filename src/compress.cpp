@@ -13,7 +13,7 @@ int main() {
     std::stringstream buffer;
     buffer << f.rdbuf(); const std::string input = buffer.str();
 
-    std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies = Metadata::collect_freq(input);
+    const std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies = Metadata::collect_freq(input);
 
     try {
         std::string encoded = encode(input, frequencies);
