@@ -1,20 +1,21 @@
 #include "../include/f.h"
 
-Node::Node(char character, int frequency, const Node* left, const Node* right) : character(character), frequency(frequency), left(left), right(right) {}
+Node::Node(const char* character, int frequency, Node* left, Node* right) : character(character), frequency(frequency), left(left), right(right) {}
+Node::Node(const Node* prev) : character(prev->character), frequency(prev->frequency), left(prev->left), right(prev->right) {}
 
-std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> Metadata::collect_freq(std::string sequence) {
-    std::unordered_map<char, int> ftable;
+std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> Metadata::collect_freq(const std::string sequence) {
+    std::map<const char*, int> ftable;
     std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies;
-    for(char character : sequence) {
-        if(ftable.find(character) != ftable.end()) {
-            ftable[character]++;
+    for(char c : sequence) {
+        if(ftable.find(&sequence.at(sequence.find(c))) != ftable.end()) {
+            ftable.at(&sequence.at(sequence.find(c))) += 1;
         } else {
-            ftable[character] = 1;
+            ftable[&sequence.at(sequence.find(c))] = 1;
         }
     }
 
-    for(std::unordered_map<char, int>::const_iterator iter = ftable.begin(); iter != ftable.end(); ++iter) {
-        frequencies.push(Node(iter->first, iter->second, NULL, NULL));
+    for(std::map<const char*, int>::const_iterator iter = ftable.begin(); iter != ftable.end(); ++iter) {
+        frequencies.push(Node((iter->first), iter->second, nullptr, nullptr));
     }
 
     return frequencies;

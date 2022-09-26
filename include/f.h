@@ -1,23 +1,24 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <queue>
 
 class Node {
     public:
-        char character;
+        const char* character;
         int frequency;
-        const Node* left;
-        const Node* right;
+        Node* left;
+        Node* right;
         
         struct CompNodeFreq {
-            bool operator()(const Node& node1, const Node& node2) {
+            bool operator()(Node& node1, Node& node2) {
                 return node1.frequency > node2.frequency;
             };
         };
 
-        Node(char character, int freq, const Node* left, const Node* right);
+        Node(const char* character, int freq, Node* left, Node* right);
+        Node(const Node*);
 };
 
 class Metadata {

@@ -1,20 +1,20 @@
 #include "../include/encode.h"
 
-std::unordered_map<char, std::string> create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
-    std::unordered_map<char, std::string> encoding;
-    const Node HEAD = Node(NULL, 0, nullptr, nullptr);
+std::map<const char*, std::string> create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
+    std::map<const char*, std::string> encoding;
     std::string temp;
-    while(frequencies.size() > 3) {
-        const Node* LEFT = &frequencies.top(); frequencies.pop();
-        const Node* RIGHT = &frequencies.top(); frequencies.pop();
-        const Node HEAD = Node(NULL, 0, LEFT, RIGHT);
-        frequencies.push(Node(NULL, LEFT->frequency + RIGHT->frequency, LEFT, RIGHT));
+    Node head = Node(nullptr, 0, nullptr, nullptr);
+    while(frequencies.size() > 1) {
+        Node* LEFT = new Node(&frequencies.top()); frequencies.pop();
+        Node* RIGHT = new Node(&frequencies.top()); frequencies.pop();
+        head = Node(nullptr, 0, LEFT, RIGHT);
+        frequencies.push(Node(nullptr, LEFT->frequency + RIGHT->frequency, LEFT, RIGHT));
     }
-    traverse(&encoding, &HEAD, &temp);
+    traverse(&encoding, &head, &temp);
     return encoding;
 }
 
-void traverse(std::unordered_map<char, std::string>* encoding, const Node* curr, std::string* temp) {
+void traverse(std::map<const char*, std::string>* encoding, Node* curr, std::string* temp) {
     if(curr->character != NULL) {
         (*encoding)[curr->character] = *temp;
         return;
@@ -32,9 +32,9 @@ void traverse(std::unordered_map<char, std::string>* encoding, const Node* curr,
 
 std::string encode(std::string sequence, std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
     std::string output;
-    std::unordered_map<char, std::string> encoding = create_encoding(Metadata::collect_freq(sequence));
+    std::map<const char*, std::string> encoding = create_encoding(frequencies);
     for(char character : sequence) {
-        output.append(encoding.at(character));
+        output.append(encoding.at(&character));
     }
     return output;
 }
