@@ -1,7 +1,7 @@
 #include "../include/encode.h"
 
-std::map<const char*, std::string> create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
-    std::map<const char*, std::string> encoding;
+std::map<const char*, std::string, map_cmp> create_encoding(std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
+    std::map<const char*, std::string, map_cmp> encoding;
     std::string temp;
     Node head = Node(nullptr, 0, nullptr, nullptr);
     while(frequencies.size() > 1) {
@@ -14,7 +14,7 @@ std::map<const char*, std::string> create_encoding(std::priority_queue<Node, std
     return encoding;
 }
 
-void traverse(std::map<const char*, std::string>* encoding, Node* curr, std::string* temp) {
+void traverse(std::map<const char*, std::string, map_cmp>* encoding, Node* curr, std::string* temp) {
     if(curr->character != NULL) {
         (*encoding)[curr->character] = *temp;
         return;
@@ -32,7 +32,7 @@ void traverse(std::map<const char*, std::string>* encoding, Node* curr, std::str
 
 std::string encode(std::string sequence, std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies) {
     std::string output;
-    std::map<const char*, std::string> encoding = create_encoding(frequencies);
+    std::map<const char*, std::string, map_cmp> encoding = create_encoding(frequencies);
     for(char character : sequence) {
         output.append(encoding.at(&character));
     }
