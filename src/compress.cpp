@@ -11,7 +11,7 @@ int main() {
     std::ofstream output("../data/output.txt"); std::ofstream input_binary("../data/input_binary.txt");
     std::ifstream f("../data/input.txt");
     std::stringstream buffer;
-    buffer << f.rdbuf(); const std::string input = buffer.str();
+    buffer << f.rdbuf(); const std::string input = buffer.str() + ']';
 
     const std::priority_queue<const Node*, std::vector<const Node*>, Node::CompNodeFreq> frequencies = Metadata::collect_freq(input);
 

@@ -11,9 +11,7 @@
 //     std::ofstream output("../data/output.txt");
 //     std::ifstream f("../data/input_binary.txt");
 //     std::stringstream buffer;
-//     buffer << f.rdbuf(); std::string input = buffer.str() + ']'; // end character, for decoding
-
-//     std::priority_queue<Node, std::vector<Node>, Node::CompNodeFreq> frequencies = Metadata::collect_freq(input);
+//     buffer << f.rdbuf(); std::string input = buffer.str(); // end character, for decoding
 
 //     try {
 //         std::string decoded = decode(input);
