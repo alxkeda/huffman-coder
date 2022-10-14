@@ -7,7 +7,7 @@
 const Node* decode_tree(std::string* sequence, int* i) {
     const char c = (*sequence)[*i];
     if(c == '1') {
-        (*i)++; const char c = (*sequence)[*i]; (*i)++;
+        (*i) += 2; const char c = (*sequence)[*i]; (*i) += 2;
         return new const Node(c, NULL, nullptr, nullptr);
     } else if(c == '0') {
         (*i)++; return new const Node(NULL, 0, decode_tree(sequence, i), decode_tree(sequence, i));

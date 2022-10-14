@@ -22,9 +22,9 @@ void traverse(std::map<const char, std::string>* encoding, const Node* curr, std
     if(curr->character != NULL) {
         (*encoding)[curr->character] = *temp;
         
-        (*tree).push_back('1');
+        (*tree).append("1 ");
 
-        (*tree).push_back(curr->character);
+        (*tree).append(std::string() + curr->character + ' ');
         return;
     } else {
         (*tree).push_back('0');
